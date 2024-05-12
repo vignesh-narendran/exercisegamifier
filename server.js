@@ -56,10 +56,10 @@ const calculateRewardPoints = (workout) => {
 app.post('/api/logWorkout', async (req, res) => {
     try {
         console.log("Initiating workout log");
-        const { pushups, lunges, squats, wallSits, planks } = req.query;
+        const { date, pushups, lunges, squats, wallSits, planks } = req.query;
 
         const workout = {
-            date: new Date(),
+            date: new Date(date),
             pushups: Number(pushups),
             lunges: Number(lunges),
             squats: Number(squats),
