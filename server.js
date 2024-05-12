@@ -28,7 +28,7 @@ const validateApiKey = (req, res, next) => {
 
 app.use(validateApiKey);
 
-app.get('/getRewardPoints', async (req, res) => {
+app.get('/api/getRewardPoints', async (req, res) => {
     await client.connect();
     const collection = await client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
     const workouts = await collection.find({}).toArray();
@@ -37,7 +37,7 @@ app.get('/getRewardPoints', async (req, res) => {
     res.status(200).json({ totalRewardPoints });
 });
 
-app.get('/getLogs', async (req, res) => {
+app.get('/api/getLogs', async (req, res) => {
     await client.connect();
     const collection = await client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
     const workouts = await collection.find({}).toArray();
@@ -51,7 +51,7 @@ const calculateRewardPoints = (workout) => {
     return (pushups + lunges + squats + wallSits + planks) * 0.5;
 };
 
-app.post('/logWorkout', async (req, res) => {
+app.post('/api/logWorkout', async (req, res) => {
     try {
         const { pushups, lunges, squats, wallSits, planks } = req.query;
 
