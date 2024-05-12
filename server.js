@@ -64,6 +64,7 @@ app.post('/api/logWorkout', async (req, res) => {
             planks: Number(planks),
         };
         workout['rewardPoints'] = calculateRewardPoints(workout);
+        console.log(workout);
         await client.connect();
         const collection = client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
         const workoutResult = await collection.insertOne(workout);
