@@ -29,6 +29,7 @@ const validateApiKey = (req, res, next) => {
 app.use(validateApiKey);
 
 app.get('/api/getRewardPoints', async (req, res) => {
+    console.log("Initiating read reward points");
     await client.connect();
     const collection = await client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
     const workouts = await collection.find({}).toArray();
@@ -38,6 +39,7 @@ app.get('/api/getRewardPoints', async (req, res) => {
 });
 
 app.get('/api/getLogs', async (req, res) => {
+    console.log("Initiating read log");
     await client.connect();
     const collection = await client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
     const workouts = await collection.find({}).toArray();
@@ -53,6 +55,7 @@ const calculateRewardPoints = (workout) => {
 
 app.post('/api/logWorkout', async (req, res) => {
     try {
+        console.log("Initiating workout log");
         const { pushups, lunges, squats, wallSits, planks } = req.query;
 
         const workout = {
@@ -69,7 +72,7 @@ app.post('/api/logWorkout', async (req, res) => {
         const collection = client.db(process.env.HEALTHDB).collection(process.env.WORKOUTS);
         const workoutResult = await collection.insertOne(workout);
         console.log('Workout inserted:', workoutResult);
-        res.status(201).send({ message: 'Workout logged successfully' });
+        res.status(201).send({ message: 'Workout logged successfully', log: workout });
     } catch (error) {
         console.error(error);
         res.status(500).send({ error: 'An error occurred while logging workout data' });
